@@ -1,0 +1,21 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 3fr;
+  border: 1px solid #ccc;
+}
+
+.header {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding: 8px;
+}
+
+.cell {
+  padding: 8px;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.cell:last-child {
+  border-right: none;
+}
