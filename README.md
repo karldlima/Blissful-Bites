@@ -9,7 +9,7 @@ pnpm i
 pnpm run dev
 ```
 
-Open [http://localhost:5173/](http://localhost:5173/) with your browser to run the application locally.
+Then follow the displayed instructions to display the local app on your browser.
 
 ### Git
 
