@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Food, foodData } from "./data";
-import { FoodTable } from "./components";
+import { Table } from "./components";
 import "./App.css";
 
 const App = (): JSX.Element => {
@@ -10,9 +10,10 @@ const App = (): JSX.Element => {
   useEffect(() => {
     setFood(foodData);
   }, []);
+
   return (
     <>
-      <FoodTable data={food} />
+      <Table data={food} />
     </>
   );
 };
