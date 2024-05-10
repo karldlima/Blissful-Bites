@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Food, foodData } from "./data";
-import { Table, Dropdown } from "./components";
+import { Table, Dropdown, Button } from "./components";
 import "./App.css";
 
 type SortingCriteria = Omit<keyof Food, "name">;
@@ -28,9 +28,18 @@ const App = (): JSX.Element => {
     ]);
   };
 
+  const flipOrder = () => {
+    const updatedOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(updatedOrder);
+    sort(sortKey as keyof Food);
+  };
+
   return (
     <>
-      {!!food.length && <Dropdown options={Object.keys(food[0])} sort={sort} />}
+      {!!food.length && (
+        <Dropdown options={["id", "type", "topping"]} sort={sort} />
+      )}
+      <Button onClick={flipOrder}>({sortOrder})</Button>
       <Table data={food} />
     </>
   );
