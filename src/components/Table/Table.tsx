@@ -1,5 +1,4 @@
 import { capitalize } from "../../design-system/utils";
-import "./Table.css";
 
 interface TableProps<T> {
   data: T[];
@@ -29,7 +28,7 @@ export const Table = <T extends Record<string, any>>({
     </table>
   ) : (
     <div>
-      <h2>No Data, please refine search</h2>
+      <h3>No Data, please refine search</h3>
     </div>
   );
 };
