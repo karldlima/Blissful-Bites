@@ -1,19 +1,27 @@
+import { forwardRef } from "react";
 import { capitalize } from "../../design-system/utils";
 
-interface DropdownProps {
+export interface DropdownProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: string[];
-  sort: (key: string) => void;
+  sort: (_key: string) => void;
 }
 
-export const Dropdown = ({ options, sort }: DropdownProps) => {
-  return (
-    <select onChange={(event) => sort(event.target.value)}>
-      {options.map((entry, index) => (
-        <option value={entry} key={index}>
-          Order by {capitalize(entry)}
-        </option>
-      ))}
-    </select>
-  );
-};
+export const Dropdown = forwardRef<HTMLSelectElement, DropdownProps>(
+  ({ options, sort, ...props }, ref): JSX.Element => {
+    return (
+      <select
+        onChange={(event) => sort(event.target.value)}
+        ref={ref}
+        {...props}
+      >
+        {options.map((entry, index) => (
+          <option value={entry} key={index}>
+            Order by {capitalize(entry)}
+          </option>
+        ))}
+      </select>
+    );
+  }
+);
 Dropdown.displayName = "Dropdown";
