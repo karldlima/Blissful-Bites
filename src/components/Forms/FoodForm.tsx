@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { Button } from "../../components";
+
 interface FoodFormProps<T> {
   onSubmit: (_formData: T) => void;
 }
@@ -23,37 +25,32 @@ const FoodForm = <T,>({ onSubmit }: FoodFormProps<T>): JSX.Element => {
     setFormData({ id: "", name: "", type: "", topping: "" });
   };
 
+  const isValid = Object.values(formData).some((value) => !value.length);
+
+  const inputFields = [
+    { placeholder: "ID", name: "id" },
+    { placeholder: "Name", name: "name" },
+    { placeholder: "Type", name: "type" },
+    { placeholder: "Topping", name: "topping" },
+  ];
+
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="ID"
-        name="id"
-        value={formData.id}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        placeholder="Name"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        placeholder="Type"
-        name="type"
-        value={formData.type}
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        placeholder="Topping"
-        name="topping"
-        value={formData.topping}
-        onChange={handleChange}
-      />
-      <button type="submit">Add Food</button>
+      {inputFields.map(
+        ({ placeholder, name }: { placeholder: string; name: string }) => (
+          <input
+            key={name}
+            type="text"
+            placeholder={placeholder}
+            name={name}
+            value={formData[name]}
+            onChange={handleChange}
+          />
+        )
+      )}
+      <Button type="submit" disabled={isValid}>
+        Add Food
+      </Button>
     </form>
   );
 };
