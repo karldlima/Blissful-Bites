@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Food, foodData } from "./data";
-import { Table, Dropdown, Button } from "./components";
+import { Table, Dropdown, Button, Input } from "./components";
 import "./App.css";
 
 type SortingCriteria = Omit<keyof Food, "name">;
@@ -11,10 +11,18 @@ const App = (): JSX.Element => {
   const [food, setFood] = useState<Food[]>([]);
   const [sortKey, setSortKey] = useState<SortingCriteria>("id");
   const [sortOrder, setSortOrder] = useState<SortingOrder>("asc");
+  const [searchValue, setSearchValue] = useState<string>("");
 
   useEffect(() => {
-    setFood(foodData);
-  }, []);
+    const filteredFood = foodData.filter((foodItem) =>
+      Object.values(foodItem).join("").toLowerCase().includes(searchValue)
+    );
+    setFood(filteredFood);
+  }, [searchValue]);
+
+  const search = (search: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(search.target.value);
+  };
 
   const sort = (key: string) => {
     const returnValue = sortOrder === "desc" ? 1 : -1;
@@ -36,6 +44,7 @@ const App = (): JSX.Element => {
 
   return (
     <>
+      <Input type="text" placeholder="Search for bites" onChange={search} />
       {!!food.length && (
         <Dropdown options={["id", "type", "topping"]} sort={sort} />
       )}
