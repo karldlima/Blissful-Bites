@@ -34,7 +34,7 @@ const App = (): JSX.Element => {
 
   // TODO: add debounce to reduce unnecessary renders
   const search = (search: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(search.target.value);
+    setSearchValue(search.target.value.toLowerCase());
   };
 
   const sort = (key: string) => {
@@ -53,13 +53,23 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <Input type="text" placeholder="Search for bites" onChange={search} />
-      {!!food.length && (
-        <Dropdown options={["id", "type", "topping"]} sort={sort} />
-      )}
-      <Button onClick={flipOrder}>({sortOrder})</Button>
-      <Table data={filteredFood} />
-      <FoodForm onSubmit={submit} />
+      <h1>Blissful Bites</h1>
+      <div className="control-container">
+        <Input type="text" placeholder="Search for bites" onChange={search} />
+        <div className="sort-container">
+          {!!food.length && (
+            <Dropdown options={["id", "type", "topping"]} sort={sort} />
+          )}
+          <Button onClick={flipOrder}>{sortOrder.toUpperCase()}</Button>
+        </div>
+      </div>
+      <div className="data-container">
+        <Table data={filteredFood} />
+      </div>
+      <div className="form-container">
+        <h3>Add your own bite</h3>
+        <FoodForm onSubmit={submit} />
+      </div>
     </>
   );
 };
