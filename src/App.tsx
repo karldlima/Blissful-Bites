@@ -1,35 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useMemo, useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+import { Table, Dropdown, Button, Input } from "./components";
+import FoodForm from "./components/Forms/FoodForm";
+import { Food, foodData } from "./data";
+import "./App.css";
+
+type SortingCriteria = Omit<keyof Food, "name">;
+type SortingOrder = "asc" | "desc";
+
+const App = (): JSX.Element => {
+  const [sortKey, setSortKey] = useState<SortingCriteria>("id");
+  const [sortOrder, setSortOrder] = useState<SortingOrder>("asc");
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [addedFood, setAddedFood] = useState<Food[]>([]);
+
+  const food = useMemo(() => {
+    const returnValue = sortOrder === "desc" ? 1 : -1;
+    const allFood = [...foodData, ...addedFood];
+    return [
+      ...allFood.sort((a, b) => {
+        return a[sortKey as keyof Food] > b[sortKey as keyof Food]
+          ? returnValue * -1
+          : returnValue;
+      }),
+    ];
+  }, [sortKey, sortOrder, addedFood]);
+
+  const filteredFood = useMemo(() => {
+    return food.filter((foodItem) =>
+      Object.values(foodItem).join("").toLowerCase().includes(searchValue)
+    );
+  }, [searchValue, food]);
+
+  // TODO: add debounce to reduce unnecessary renders
+  const search = (search: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(search.target.value.toLowerCase());
+  };
+
+  const sort = (key: string) => {
+    setSortKey(key);
+  };
+
+  const flipOrder = () => {
+    const updatedOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(updatedOrder);
+    sort(sortKey as keyof Food);
+  };
+
+  const submit = (food: Food) => {
+    setAddedFood([...addedFood, food]);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>Blissful Bites</h1>
+      <div className="control-container">
+        <Input type="text" placeholder="Search for bites" onChange={search} />
+        <div className="sort-container">
+          {!!food.length && (
+            <Dropdown options={["id", "type", "topping"]} sort={sort} />
+          )}
+          <Button onClick={flipOrder}>{sortOrder.toUpperCase()}</Button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="data-container">
+        <Table data={filteredFood} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="form-container">
+        <h3>Add your own bite</h3>
+        <FoodForm onSubmit={submit} />
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

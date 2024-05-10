@@ -1,0 +1,27 @@
+table {
+  width: 100%;
+}
+
+thead {
+  background-color: #ccc;
+}
+
+thead th {
+  padding: 5px 10px;
+  max-width: 280px;
+  text-align: start;
+}
+
+tbody tr {
+  background-color: #f2f2f2;
+}
+
+tbody td {
+  padding: 5px 10px;
+  max-width: 280px;
+  text-align: start;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
