@@ -1,6 +1,37 @@
 #root {
-  max-width: 1280px;
+  max-width: 80%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.control-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.data-container {
+  height: 300px;
+  overflow: auto;
+  margin-bottom: 40px;
+}
+
+.form-container h3 {
+  text-align: start;
+  margin-bottom: 5px;
+}
+
+.form-container form {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 10px;
 }
