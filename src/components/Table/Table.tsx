@@ -1,18 +1,19 @@
-import { capitalizeFirstLetter } from "../../design-system/utils";
-import { Food } from "../../data";
+import { capitalize } from "../../design-system/utils";
 import "./Table.css";
 
-interface TableProps {
-  data: Food[];
+interface TableProps<T> {
+  data: T[];
 }
 
-export const Table = ({ data }: TableProps): JSX.Element => {
+export const Table = <T extends Record<string, any>>({
+  data,
+}: TableProps<T>): JSX.Element => {
   return !!data.length ? (
     <table>
       <thead>
         <tr>
           {Object.keys(data[0]).map((header, i) => (
-            <th key={i}>{capitalizeFirstLetter(header)}</th>
+            <th key={i}>{capitalize(header)}</th>
           ))}
         </tr>
       </thead>
