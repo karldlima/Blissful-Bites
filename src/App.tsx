@@ -12,17 +12,19 @@ const App = (): JSX.Element => {
   const [sortKey, setSortKey] = useState<SortingCriteria>("id");
   const [sortOrder, setSortOrder] = useState<SortingOrder>("asc");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [addedFood, setAddedFood] = useState<Food[]>([]);
 
   const food = useMemo(() => {
     const returnValue = sortOrder === "desc" ? 1 : -1;
+    const allFood = [...foodData, ...addedFood];
     return [
-      ...foodData.sort((a, b) => {
+      ...allFood.sort((a, b) => {
         return a[sortKey as keyof Food] > b[sortKey as keyof Food]
           ? returnValue * -1
           : returnValue;
       }),
     ];
-  }, [sortKey, sortOrder]);
+  }, [sortKey, sortOrder, addedFood]);
 
   const filteredFood = useMemo(() => {
     return food.filter((foodItem) =>
@@ -30,6 +32,7 @@ const App = (): JSX.Element => {
     );
   }, [searchValue, food]);
 
+  // TODO: add debounce to reduce unnecessary renders
   const search = (search: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(search.target.value);
   };
@@ -45,7 +48,7 @@ const App = (): JSX.Element => {
   };
 
   const submit = (food: Food) => {
-    //
+    setAddedFood([...addedFood, food]);
   };
 
   return (
