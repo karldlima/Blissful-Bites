@@ -29,7 +29,7 @@ export const Table = <T extends Record<string, any>>({
     </table>
   ) : (
     <div>
-      <h2>No Data</h2>
+      <h2>No Data, please refine search</h2>
     </div>
   );
 };
