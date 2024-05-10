@@ -1,45 +1,51 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
-import { Food, foodData } from "./data";
 import { Table, Dropdown, Button, Input } from "./components";
+import FoodForm from "./components/Forms/FoodForm";
+import { Food, foodData } from "./data";
 import "./App.css";
 
 type SortingCriteria = Omit<keyof Food, "name">;
 type SortingOrder = "asc" | "desc";
 
 const App = (): JSX.Element => {
-  const [food, setFood] = useState<Food[]>([]);
   const [sortKey, setSortKey] = useState<SortingCriteria>("id");
   const [sortOrder, setSortOrder] = useState<SortingOrder>("asc");
   const [searchValue, setSearchValue] = useState<string>("");
 
-  useEffect(() => {
-    const filteredFood = foodData.filter((foodItem) =>
+  const food = useMemo(() => {
+    const returnValue = sortOrder === "desc" ? 1 : -1;
+    return [
+      ...foodData.sort((a, b) => {
+        return a[sortKey as keyof Food] > b[sortKey as keyof Food]
+          ? returnValue * -1
+          : returnValue;
+      }),
+    ];
+  }, [sortKey, sortOrder]);
+
+  const filteredFood = useMemo(() => {
+    return food.filter((foodItem) =>
       Object.values(foodItem).join("").toLowerCase().includes(searchValue)
     );
-    setFood(filteredFood);
-  }, [searchValue]);
+  }, [searchValue, food]);
 
   const search = (search: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(search.target.value);
   };
 
   const sort = (key: string) => {
-    const returnValue = sortOrder === "desc" ? 1 : -1;
     setSortKey(key);
-    setFood([
-      ...food.sort((a, b) => {
-        return a[key as keyof Food] > b[key as keyof Food]
-          ? returnValue * -1
-          : returnValue;
-      }),
-    ]);
   };
 
   const flipOrder = () => {
     const updatedOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(updatedOrder);
     sort(sortKey as keyof Food);
+  };
+
+  const submit = (food: Food) => {
+    //
   };
 
   return (
@@ -49,7 +55,8 @@ const App = (): JSX.Element => {
         <Dropdown options={["id", "type", "topping"]} sort={sort} />
       )}
       <Button onClick={flipOrder}>({sortOrder})</Button>
-      <Table data={food} />
+      <Table data={filteredFood} />
+      <FoodForm onSubmit={submit} />
     </>
   );
 };
