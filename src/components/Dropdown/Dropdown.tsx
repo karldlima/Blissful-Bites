@@ -3,8 +3,7 @@ import { capitalize } from "../../design-system/utils";
 
 import "./Dropdown.css";
 
-export interface DropdownProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+interface DropdownProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: string[];
   sort: (_key: string) => void;
 }
