@@ -1,8 +1,6 @@
 import { forwardRef } from "react";
 import { capitalize } from "../../design-system/utils";
 
-import "./Dropdown.css";
-
 interface DropdownProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: string[];
   sort: (_key: string) => void;
