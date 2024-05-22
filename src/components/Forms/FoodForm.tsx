@@ -37,7 +37,11 @@ const FoodForm = <T,>({ onSubmit }: FoodFormProps<T>): JSX.Element => {
   ];
 
   return (
-    <form onSubmit={handleSubmit} className="foodform">
+    <form
+      onSubmit={handleSubmit}
+      className="foodform"
+      aria-describedby="form-heading"
+    >
       {inputFields.map(
         ({ placeholder, name }: { placeholder: string; name: string }) => (
           <div className="input-container">

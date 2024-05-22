@@ -70,18 +70,26 @@ const App = (): JSX.Element => {
               {!!food.length && (
                 <Dropdown options={["id", "type", "topping"]} sort={sort} />
               )}
-              <Button onClick={flipOrder} aria-label="sort bites">
+              <Button onClick={flipOrder}>
+                <span className="sr-only">order by </span>
                 {sortOrder.toUpperCase()}
               </Button>
             </div>
           </div>
-          <div className="data-container">
-            <Table data={filteredFood} />
-          </div>
+          <>
+            <header className="table-container">
+              <h3 id="table-heading">Bites</h3>
+            </header>
+            <div className="data-container">
+              <Table data={filteredFood} />
+            </div>
+          </>
         </section>
         <section>
           <div className="form-container">
-            <h3>Add your own bite</h3>
+            <header>
+              <h3 id="form-heading">Add your own bite</h3>
+            </header>
             <FoodForm onSubmit={submit} />
           </div>
         </section>
