@@ -53,23 +53,35 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <h1>Blissful Bites</h1>
-      <div className="control-container">
-        <Input type="text" placeholder="Search for bites" onChange={search} />
-        <div className="sort-container">
-          {!!food.length && (
-            <Dropdown options={["id", "type", "topping"]} sort={sort} />
-          )}
-          <Button onClick={flipOrder}>{sortOrder.toUpperCase()}</Button>
-        </div>
-      </div>
-      <div className="data-container">
-        <Table data={filteredFood} />
-      </div>
-      <div className="form-container">
-        <h3>Add your own bite</h3>
-        <FoodForm onSubmit={submit} />
-      </div>
+      <header>
+        <h1>Blissful Bites</h1>
+      </header>
+      <main>
+        <section>
+          <div className="control-container">
+            <Input
+              type="text"
+              placeholder="Search for bites"
+              onChange={search}
+            />
+            <div className="sort-container">
+              {!!food.length && (
+                <Dropdown options={["id", "type", "topping"]} sort={sort} />
+              )}
+              <Button onClick={flipOrder}>{sortOrder.toUpperCase()}</Button>
+            </div>
+          </div>
+          <div className="data-container">
+            <Table data={filteredFood} />
+          </div>
+        </section>
+        <section>
+          <div className="form-container">
+            <h3>Add your own bite</h3>
+            <FoodForm onSubmit={submit} />
+          </div>
+        </section>
+      </main>
     </>
   );
 };
