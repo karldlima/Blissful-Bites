@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Table, Dropdown, Button, Input } from "./components";
 import FoodForm from "./components/Forms/FoodForm";
 import { Food, foodData } from "./data";
+
 import "./App.css";
 
 type SortingCriteria = Omit<keyof Food, "name">;
@@ -28,13 +29,13 @@ const App = (): JSX.Element => {
 
   const filteredFood = useMemo(() => {
     return food.filter((foodItem) =>
-      Object.values(foodItem).join("").toLowerCase().includes(searchValue)
+      Object.values(foodItem).join("").includes(searchValue)
     );
   }, [searchValue, food]);
 
   // TODO: add debounce to reduce unnecessary renders
   const search = (search: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(search.target.value.toLowerCase());
+    setSearchValue(search.target.value);
   };
 
   const sort = (key: string) => {
@@ -60,15 +61,18 @@ const App = (): JSX.Element => {
         <section>
           <div className="control-container">
             <Input
-              type="text"
-              placeholder="Search for bites"
+              type="search"
+              placeholder="Filter by any field"
+              aria-label="Filter by any field"
               onChange={search}
             />
             <div className="sort-container">
               {!!food.length && (
                 <Dropdown options={["id", "type", "topping"]} sort={sort} />
               )}
-              <Button onClick={flipOrder}>{sortOrder.toUpperCase()}</Button>
+              <Button onClick={flipOrder} aria-label="sort bites">
+                {sortOrder.toUpperCase()}
+              </Button>
             </div>
           </div>
           <div className="data-container">
