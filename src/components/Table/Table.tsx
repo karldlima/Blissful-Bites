@@ -4,15 +4,17 @@ interface TableProps<T> {
   data: T[];
 }
 
-export const Table = <T extends Record<string, any>>({
+export const Table = <T extends Record<string, string | number>>({
   data,
 }: TableProps<T>): JSX.Element => {
-  return !!data.length ? (
-    <table>
+  return data.length ? (
+    <table aria-describedby="table-heading">
       <thead>
         <tr>
           {Object.keys(data[0]).map((header, i) => (
-            <th key={i}>{capitalize(header)}</th>
+            <th key={i} scope="col">
+              {capitalize(header)}
+            </th>
           ))}
         </tr>
       </thead>
