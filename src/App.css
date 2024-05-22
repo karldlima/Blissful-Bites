@@ -1,7 +1,7 @@
 #root {
   max-width: 80%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
 }
 
@@ -16,6 +16,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.table-container {
+  text-align: start;
 }
 
 .data-container {
@@ -34,4 +38,15 @@
   flex-flow: row wrap;
   align-items: center;
   gap: 10px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

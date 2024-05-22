@@ -1,8 +1,6 @@
 import { forwardRef } from "react";
 import { capitalize } from "../../design-system/utils";
 
-import "./Dropdown.css";
-
 interface DropdownProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: string[];
   sort: (_key: string) => void;
@@ -13,13 +11,14 @@ export const Dropdown = forwardRef<HTMLSelectElement, DropdownProps>(
     return (
       <div className="dropdown-container">
         <select
+          aria-label="Sort types"
           onChange={(event) => sort(event.target.value)}
           ref={ref}
           {...props}
         >
           {options.map((entry, index) => (
             <option value={entry} key={index}>
-              Order by {capitalize(entry)}
+              Sort by {capitalize(entry)}
             </option>
           ))}
         </select>
