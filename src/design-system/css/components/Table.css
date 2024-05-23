@@ -3,25 +3,20 @@ table {
 }
 
 thead {
-  background-color: #ccc;
+  background-color: var(--colour-grey);
 }
 
-thead th {
-  padding: 5px 10px;
-  max-width: 280px;
-  text-align: start;
+thead th,
+tbody td {
+  padding: var(--table-cell-padding);
+  max-width: var(--table-max-width);
+  text-align: var(--table-cell-text-align);
 }
 
 tbody tr {
-  background-color: #f2f2f2;
-}
-
-tbody td {
-  padding: 5px 10px;
-  max-width: 280px;
-  text-align: start;
+  background-color: var(--colour-primary-bg);
 }
 
 tbody tr:nth-child(odd) {
-  background-color: #ffffff;
+  background-color: var(--colour-white);
 }
