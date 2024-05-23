@@ -1,4 +1,4 @@
-import { capitalize } from "../../design-system/utils";
+import { capitalize } from "../../utils";
 
 interface TableProps<T> {
   data: T[];

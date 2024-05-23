@@ -3,8 +3,6 @@ import { useState } from "react";
 import { Button } from "../../components";
 import { Food } from "../../data";
 
-import "./FoodForm.css";
-
 export interface FormFood extends Omit<Food, "id"> {
   id: number | undefined;
 }
@@ -29,7 +27,7 @@ const FoodForm = ({ onSubmit }: FoodFormProps): JSX.Element => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData as Food);
-    setFormData({ id: -1, type: "", name: "", topping: "" });
+    setFormData({ id: undefined, type: "", name: "", topping: "" });
   };
 
   const isDisabled = Object.values(formData).some((value) => !value?.length);
