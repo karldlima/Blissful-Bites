@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { capitalize } from "../../design-system/utils";
+import { capitalize } from "../../utils";
 
 interface DropdownProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: string[];

@@ -20,7 +20,7 @@ const App = (): JSX.Element => {
     const allFood = [...foodData, ...addedFood];
     return [
       ...allFood.sort((a, b) => {
-        return a[sortKey] > b[sortKey] ? returnValue * -1 : returnValue;
+        return a[sortKey] > b[sortKey] ? -returnValue : returnValue;
       }),
     ];
   }, [sortKey, sortOrder, addedFood]);

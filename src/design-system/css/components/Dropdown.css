@@ -8,10 +8,10 @@
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--colour-grey);
   border-radius: 4px;
   appearance: none;
-  background-color: #fff;
+  background-color: var(--colour-white);
   cursor: pointer;
 }
 
