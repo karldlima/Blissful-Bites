@@ -1,16 +1,19 @@
 import { useState } from "react";
 
 import { Button } from "../../components";
+import { Food } from "../../data";
 
-import "./FoodForm.css";
-
-interface FoodFormProps<T> {
-  onSubmit: (_formData: T) => void;
+export interface FormFood extends Omit<Food, "id"> {
+  id: number | undefined;
 }
 
-const FoodForm = <T,>({ onSubmit }: FoodFormProps<T>): JSX.Element => {
-  const [formData, setFormData] = useState({
-    id: "",
+interface FoodFormProps {
+  onSubmit: (_formData: Food) => void;
+}
+
+const FoodForm = ({ onSubmit }: FoodFormProps): JSX.Element => {
+  const [formData, setFormData] = useState<FormFood>({
+    id: undefined,
     type: "",
     name: "",
     topping: "",
@@ -23,13 +26,13 @@ const FoodForm = <T,>({ onSubmit }: FoodFormProps<T>): JSX.Element => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData as T);
-    setFormData({ id: "", type: "", name: "", topping: "" });
+    onSubmit(formData as Food);
+    setFormData({ id: undefined, type: "", name: "", topping: "" });
   };
 
-  const isValid = Object.values(formData).some((value) => !value.length);
+  const isDisabled = Object.values(formData).some((value) => !value?.length);
 
-  const inputFields = [
+  const inputFields: { placeholder: string; name: keyof Food }[] = [
     { placeholder: "ID", name: "id" },
     { placeholder: "Type", name: "type" },
     { placeholder: "Name", name: "name" },
@@ -42,23 +45,21 @@ const FoodForm = <T,>({ onSubmit }: FoodFormProps<T>): JSX.Element => {
       className="foodform"
       aria-describedby="form-heading"
     >
-      {inputFields.map(
-        ({ placeholder, name }: { placeholder: string; name: string }) => (
-          <div className="input-container">
-            <label htmlFor={name}>{placeholder}</label>
-            <input
-              id={name}
-              key={name}
-              type="text"
-              placeholder={placeholder}
-              name={name}
-              value={formData[name]}
-              onChange={handleChange}
-            />
-          </div>
-        )
-      )}
-      <Button type="submit" disabled={isValid}>
+      {inputFields.map(({ placeholder, name }) => (
+        <div className="input-container">
+          <label htmlFor={name}>{placeholder}</label>
+          <input
+            id={name}
+            key={name}
+            type="text"
+            placeholder={placeholder}
+            name={name}
+            value={formData[name]}
+            onChange={handleChange}
+          />
+        </div>
+      ))}
+      <Button type="submit" disabled={isDisabled}>
         Add Food
       </Button>
     </form>

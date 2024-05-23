@@ -6,7 +6,7 @@ import { Food, foodData } from "./data";
 
 import "./App.css";
 
-type SortingCriteria = Omit<keyof Food, "name">;
+type SortingCriteria = Exclude<keyof Food, "name">;
 type SortingOrder = "asc" | "desc";
 
 const App = (): JSX.Element => {
@@ -15,40 +15,36 @@ const App = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [addedFood, setAddedFood] = useState<Food[]>([]);
 
-  const food = useMemo(() => {
+  const food: Food[] = useMemo(() => {
     const returnValue = sortOrder === "desc" ? 1 : -1;
     const allFood = [...foodData, ...addedFood];
     return [
       ...allFood.sort((a, b) => {
-        return a[sortKey as keyof Food] > b[sortKey as keyof Food]
-          ? returnValue * -1
-          : returnValue;
+        return a[sortKey] > b[sortKey] ? -returnValue : returnValue;
       }),
     ];
   }, [sortKey, sortOrder, addedFood]);
 
-  const filteredFood = useMemo(() => {
+  const filteredFood: Food[] = useMemo(() => {
     return food.filter((foodItem) =>
       Object.values(foodItem).join("").includes(searchValue)
     );
   }, [searchValue, food]);
 
   // TODO: add debounce to reduce unnecessary renders
-  const search = (search: React.ChangeEvent<HTMLInputElement>) => {
+  const search = (search: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(search.target.value);
   };
 
-  const sort = (key: string) => {
-    setSortKey(key);
+  const sort = (key: string): void => {
+    setSortKey(key as SortingCriteria);
   };
 
-  const flipOrder = () => {
-    const updatedOrder = sortOrder === "asc" ? "desc" : "asc";
-    setSortOrder(updatedOrder);
-    sort(sortKey as keyof Food);
+  const flipOrder = (): void => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  const submit = (food: Food) => {
+  const submit = (food: Food): void => {
     setAddedFood([...addedFood, food]);
   };
 

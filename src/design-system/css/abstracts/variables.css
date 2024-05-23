@@ -1,0 +1,14 @@
+:root {
+  --table-cell-padding: 5px 10px;
+  --table-cell-text-align: start;
+  --table-max-width: 280px;
+
+  --colour-button-bg: #8d4fb4;
+  --colour-button-hover: #693a87;
+  --colour-button-active: #693a87;
+
+  --colour-primary-bg: #f2f2f2;
+
+  --colour-white: #fff;
+  --colour-grey: #ccc;
+}
