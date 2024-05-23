@@ -4,9 +4,7 @@ interface TableProps<T> {
   data: T[];
 }
 
-export const Table = <T extends Record<string, string | number>>({
-  data,
-}: TableProps<T>): JSX.Element => {
+export const Table = <T extends {}>({ data }: TableProps<T>): JSX.Element => {
   return data.length ? (
     <table aria-describedby="table-heading">
       <thead>
@@ -22,7 +20,7 @@ export const Table = <T extends Record<string, string | number>>({
         {data.map((row, i) => (
           <tr key={i}>
             {Object.values(row).map((entry, colIndex) => (
-              <td key={colIndex}>{entry}</td>
+              <td key={colIndex}>{entry as string}</td>
             ))}
           </tr>
         ))}
