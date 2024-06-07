@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Table, Dropdown, Button, Input } from "./components";
 import FoodForm from "./components/Forms/FoodForm";
-import { Food, foodData } from "./data";
+import { fetchFood, Food } from "./graphql";
 
 import "./App.css";
 
@@ -10,10 +10,24 @@ type SortingCriteria = Exclude<keyof Food, "name">;
 type SortingOrder = "asc" | "desc";
 
 const App = (): JSX.Element => {
+  const [foodData, setFoodData] = useState<Food[]>([]);
   const [sortKey, setSortKey] = useState<SortingCriteria>("id");
   const [sortOrder, setSortOrder] = useState<SortingOrder>("asc");
   const [searchValue, setSearchValue] = useState<string>("");
   const [addedFood, setAddedFood] = useState<Food[]>([]);
+
+  useEffect(() => {
+    getFood();
+  }, []);
+
+  async function getFood() {
+    try {
+      const foodData: Food[] = await fetchFood();
+      setFoodData(foodData);
+    } catch (err) {
+      // Error handling
+    }
+  }
 
   const food: Food[] = useMemo(() => {
     const returnValue = sortOrder === "desc" ? 1 : -1;
@@ -23,13 +37,15 @@ const App = (): JSX.Element => {
         return a[sortKey] > b[sortKey] ? -returnValue : returnValue;
       }),
     ];
-  }, [sortKey, sortOrder, addedFood]);
+  }, [foodData, sortKey, sortOrder, addedFood]);
 
-  const filteredFood: Food[] = useMemo(() => {
-    return food.filter((foodItem) =>
-      Object.values(foodItem).join("").includes(searchValue)
-    );
-  }, [searchValue, food]);
+  const filteredFood: Food[] = useMemo(
+    () =>
+      food.filter((foodItem) =>
+        Object.values(foodItem).join("").includes(searchValue)
+      ),
+    [searchValue, food]
+  );
 
   // TODO: add debounce to reduce unnecessary renders
   const search = (search: React.ChangeEvent<HTMLInputElement>): void => {
