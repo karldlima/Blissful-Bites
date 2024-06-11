@@ -8,7 +8,7 @@ export interface Food {
 }
 
 export const client = new ApolloClient({
-  uri: "http://localhost:4000",
+  uri: import.meta.env.VITE_API_FOOD_URL,
   cache: new InMemoryCache({ addTypename: false }),
 });
 
