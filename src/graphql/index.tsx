@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export interface Food {
-  id: number;
+  id: string;
   type: string;
   name: string;
   topping: string;

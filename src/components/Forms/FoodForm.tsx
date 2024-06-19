@@ -1,19 +1,15 @@
 import { useState } from "react";
 
 import { Button } from "../../components";
-import { Food } from "../../data";
-
-export interface FormFood extends Omit<Food, "id"> {
-  id: number | undefined;
-}
+import { Food } from "../../graphql";
 
 interface FoodFormProps {
   onSubmit: (_formData: Food) => void;
 }
 
 const FoodForm = ({ onSubmit }: FoodFormProps): JSX.Element => {
-  const [formData, setFormData] = useState<FormFood>({
-    id: undefined,
+  const [formData, setFormData] = useState<Food>({
+    id: "",
     type: "",
     name: "",
     topping: "",
@@ -27,7 +23,7 @@ const FoodForm = ({ onSubmit }: FoodFormProps): JSX.Element => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData as Food);
-    setFormData({ id: undefined, type: "", name: "", topping: "" });
+    setFormData({ id: "", type: "", name: "", topping: "" });
   };
 
   const isDisabled = Object.values(formData).some((value) => !value?.length);
