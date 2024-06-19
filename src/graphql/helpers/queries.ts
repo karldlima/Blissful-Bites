@@ -10,3 +10,9 @@ export const LIST_FOOD = gql`
     }
   }
 `;
+
+export const ADD_FOOD = gql`
+  mutation ($id: Int!, $type: String!, $name: String!, $topping: String!) {
+    addFood(id: $id, type: $type, name: $name, topping: $topping)
+  }
+`;
