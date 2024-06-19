@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Table, Dropdown, Button, Input } from "./components";
 import FoodForm from "./components/Forms/FoodForm";
-import { fetchFood, Food } from "./graphql";
+import { addFood, client, fetchFood, Food, LIST_FOOD } from "./graphql";
 
 import "./App.css";
 
@@ -14,7 +14,6 @@ const App = (): JSX.Element => {
   const [sortKey, setSortKey] = useState<SortingCriteria>("id");
   const [sortOrder, setSortOrder] = useState<SortingOrder>("asc");
   const [searchValue, setSearchValue] = useState<string>("");
-  const [addedFood, setAddedFood] = useState<Food[]>([]);
 
   useEffect(() => {
     getFood();
@@ -31,13 +30,13 @@ const App = (): JSX.Element => {
 
   const food: Food[] = useMemo(() => {
     const returnValue = sortOrder === "desc" ? 1 : -1;
-    const allFood = [...foodData, ...addedFood];
+
     return [
-      ...allFood.sort((a, b) => {
+      ...[...foodData].sort((a, b) => {
         return a[sortKey] > b[sortKey] ? -returnValue : returnValue;
       }),
     ];
-  }, [foodData, sortKey, sortOrder, addedFood]);
+  }, [foodData, sortKey, sortOrder]);
 
   const filteredFood: Food[] = useMemo(
     () =>
@@ -60,8 +59,16 @@ const App = (): JSX.Element => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  const submit = (food: Food): void => {
-    setAddedFood([...addedFood, food]);
+  const submit = async (food: Food): Promise<void> => {
+    await addFood(food);
+    const foodData = await client.refetchQueries({
+      include: [
+        {
+          query: LIST_FOOD,
+        },
+      ],
+    });
+    setFoodData(foodData[0].data.food);
   };
 
   return (
