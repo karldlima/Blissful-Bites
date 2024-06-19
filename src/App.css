@@ -1,5 +1,4 @@
 #root {
-  max-width: 80%;
   margin: 0 auto;
   padding: 1rem;
   text-align: center;
@@ -49,4 +48,38 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+.container {
+  display: grid;
+  grid-template: repeat(12, 1fr) / repeat(12, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 15px;
+}
+
+.grid {
+  background-color: #444;
+  color: #fff;
+  padding: 25px;
+  font-size: 3rem;
+}
+.header {
+  grid-column: 1 / 13;
+  grid-row: 1 / 2;
+}
+.sidebar {
+  grid-column: 8 / 12;
+  grid-row: 2 / 12;
+}
+.content {
+  grid-column: 2 / 8;
+  grid-row: 2 / 11;
+}
+.extra {
+  grid-column: 2 / 8;
+  grid-row: 11 / 12;
+}
+.footer {
+  grid-column: 1 / 13;
+  grid-row: 12 / 13;
 }
