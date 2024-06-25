@@ -1,4 +1,4 @@
-import { client, Food } from "..";
+import { api, Food } from "..";
 import { LIST_FOOD } from "./queries";
 
 type FetchFoodQuery = {
@@ -11,13 +11,11 @@ type FetchFoodQuery = {
 
 export const fetchFood = async (): Promise<Food[]> => {
   try {
-    const foodData = (await client.query({
+    const foodData = (await api.query({
       query: LIST_FOOD,
     })) as FetchFoodQuery;
     return foodData.data.food;
   } catch (err) {
-    console.log("error fetching food...", err);
-    // TODO: return err obj
-    return [];
+    return Promise.reject(new Error(`error fetching food: ${err}`));
   }
 };

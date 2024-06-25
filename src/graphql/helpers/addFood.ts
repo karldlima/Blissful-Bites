@@ -1,4 +1,4 @@
-import { client, Food } from "..";
+import { api, Food } from "..";
 import { ADD_FOOD } from "./queries";
 
 type AddFoodQuery = {
@@ -11,14 +11,12 @@ type AddFoodQuery = {
 
 export const addFood = async (food: Food): Promise<string> => {
   try {
-    const foodData = (await client.mutate({
+    const foodData = (await api.mutate({
       mutation: ADD_FOOD,
       variables: { ...food, id: Number(food.id) },
     })) as AddFoodQuery;
     return foodData.data.addFood;
   } catch (err) {
-    console.log("error fetching food...", err);
-    // TODO: return err obj
-    return "";
+    return Promise.reject(new Error(`error adding food: ${err}`));
   }
 };

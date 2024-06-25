@@ -41,8 +41,8 @@ const FoodForm = ({ onSubmit }: FoodFormProps): JSX.Element => {
       className="foodform"
       aria-describedby="form-heading"
     >
-      {inputFields.map(({ placeholder, name }) => (
-        <div className="input-container">
+      {inputFields.map(({ placeholder, name }, i) => (
+        <div className="input-container" key={i}>
           <label htmlFor={name}>{placeholder}</label>
           <input
             id={name}

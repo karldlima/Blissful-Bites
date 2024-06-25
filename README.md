@@ -1,4 +1,4 @@
-This repository contains the source code for a personal project. It is built using React + TypeScript, bootstrapped with Vite[SWC]
+This repository contains the source code for a personal project. It is built using React + TypeScript, bootstrapped with Vite[SWC], apollo/client for graphql server integration, react-toastify for displaying errors
 
 ## Getting Started
 
