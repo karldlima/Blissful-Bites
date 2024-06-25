@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 import { Table, Dropdown, Button, Input } from "./components";
 import FoodForm from "./components/Forms/FoodForm";
-import { addFood, client, fetchFood, Food, LIST_FOOD } from "./graphql";
+import { addFood, api, fetchFood, Food, LIST_FOOD } from "./graphql";
 
 import "./App.css";
 
@@ -23,8 +24,11 @@ const App = (): JSX.Element => {
     try {
       const foodData: Food[] = await fetchFood();
       setFoodData(foodData);
-    } catch (err) {
-      // Error handling
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`Unable to fetch food`);
+        console.error("Error in fetch:", error.message);
+      }
     }
   }
 
@@ -60,15 +64,22 @@ const App = (): JSX.Element => {
   };
 
   const submit = async (food: Food): Promise<void> => {
-    await addFood(food);
-    const foodData = await client.refetchQueries({
-      include: [
-        {
-          query: LIST_FOOD,
-        },
-      ],
-    });
-    setFoodData(foodData[0].data.food);
+    try {
+      await addFood(food);
+      const foodData = await api.refetchQueries({
+        include: [
+          {
+            query: LIST_FOOD,
+          },
+        ],
+      });
+      setFoodData(foodData[0].data.food);
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`Unable to add food`);
+        console.error("Error in submit function:", error.message);
+      }
+    }
   };
 
   return (
@@ -113,6 +124,7 @@ const App = (): JSX.Element => {
           </div>
         </section>
       </main>
+      <ToastContainer />
     </>
   );
 };
